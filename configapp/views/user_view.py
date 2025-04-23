@@ -1,8 +1,6 @@
-
 from django.contrib.auth.hashers import make_password
 from django.core.cache import cache
 from drf_yasg.utils import swagger_auto_schema
-
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
