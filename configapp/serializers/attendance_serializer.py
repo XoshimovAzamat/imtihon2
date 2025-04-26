@@ -5,18 +5,17 @@ from configapp.models.attendance_model import StudentAttendance, Attendance
 
 # StudentAttendance modelining oddiy serializeri
 class StudentAttendanceSerializer(serializers.ModelSerializer):
-    student_name = serializers.CharField(source='student.full_name', read_only=True)  # Foydali qo‘shimcha
+    student_name = serializers.CharField(source='student.full_name', read_only=True)  # agar student modeli `full_name` bor bo'lsa
 
     class Meta:
         model = StudentAttendance
-        fields = ['id', 'attendance', 'student', 'student_name', 'status']
+        fields = ['id', 'attendance', 'student', 'student_name', 'is_present']
+        read_only_fields = ['attendance', 'student_name']
 
 
-# Attendance modelining asosiy serializeri
 class AttendanceSerializer(serializers.ModelSerializer):
-    group_name = serializers.CharField(source='group.name', read_only=True)  # Guruh nomi ko‘rsatish uchun
-    student_attendances = StudentAttendanceSerializer(many=True, read_only=True)  # related_name orqali
+    student_attendances = StudentAttendanceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Attendance
-        fields = ['id', 'group', 'group_name', 'date', 'descriptions', 'student_attendances']
+        fields = ['id', 'group', 'date', 'lesson_name', 'descriptions', 'student_attendances']

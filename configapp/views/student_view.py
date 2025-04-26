@@ -47,7 +47,7 @@ class StudentApi(APIView):
         result_page = paginator.paginate_queryset(students, request)
         serializer = StudentSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
-
+    @swagger_auto_schema(request_body=StudentSerializer)
     def put(self, request, pk):
         student = get_object_or_404(Student, pk=pk)
         serializer = StudentSerializer(student, data=request.data)
@@ -55,7 +55,7 @@ class StudentApi(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    @swagger_auto_schema(request_body=StudentSerializer)
     def patch(self, request, pk):
         student = get_object_or_404(Student, pk=pk)
         serializer = StudentSerializer(student, data=request.data, partial=True)

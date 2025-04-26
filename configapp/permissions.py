@@ -22,7 +22,6 @@ class IsAdminOrTeacherLimitedEdit(BasePermission):
         if user.is_teacher and request.method in ['PATCH', 'PUT']:
             allowed_fields = {'title'}
             incoming_fields = set(request.data.keys())
-
             return incoming_fields.issubset(allowed_fields)
 
         return False

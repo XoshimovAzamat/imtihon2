@@ -10,7 +10,7 @@ router.register('student-attendance', StudentAttendanceViewSet, basename='studen
 
 urlpatterns = [
     path('student/', StudentApi.as_view(), name='students'),
-    # path('student/<int:pk>/', StudentApi.as_view(), name='student-detail'),
+    path('students/<int:pk>/', StudentApi.as_view(), name='student-detail'),
     # path('teacher/create/', TeacherCreateApi.as_view(), name='teacher'),
     path('teacher/<int:pk>/', TeacherApi.as_view(), name='teacher'),
     path('users/', RegisterUserApi.as_view(), name='users'),

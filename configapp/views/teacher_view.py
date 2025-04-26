@@ -63,6 +63,7 @@ class TeacherApi(APIView):
         serializer = TeacherSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
+    @swagger_auto_schema(request_body=TeacherSerializer)
     def put(self, request, pk):
         teacher = get_object_or_404(Teacher, pk=pk)
         serializer = TeacherSerializer(teacher, data=request.data)
@@ -71,6 +72,7 @@ class TeacherApi(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(request_body=TeacherSerializer)
     def patch(self, request, pk):
         teacher = get_object_or_404(Teacher, pk=pk)
         serializer = TeacherSerializer(teacher, data=request.data, partial=True)
@@ -78,5 +80,3 @@ class TeacherApi(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
