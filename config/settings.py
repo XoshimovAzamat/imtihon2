@@ -1,6 +1,8 @@
 from datetime import timedelta
 from pathlib import Path
 
+from django.conf.global_settings import STATICFILES_DIRS, STATIC_ROOT
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,7 +16,7 @@ SECRET_KEY = 'django-insecure-!^a^sdx@n6p(&ga)09=qy9fxc@8e$n+0y+x5bciz_@u*+86z+l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '164.92.162.37']
+ALLOWED_HOSTS = ['*', '159.223.26.93']
 
 
 # Application definition
@@ -144,6 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+import os
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
