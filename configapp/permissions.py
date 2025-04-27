@@ -1,6 +1,5 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
-
 class IsAdminOrTeacherLimitedEdit(BasePermission):
     """
     Admin: to‘liq CRUD

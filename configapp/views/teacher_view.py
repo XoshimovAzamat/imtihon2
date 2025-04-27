@@ -10,6 +10,9 @@ from configapp.models import Teacher
 from configapp.serializers import TeacherSerializer
 from ..add_pagination import CustomPaginator
 from django.shortcuts import get_object_or_404
+
+from ..models.payments_model import Payments
+from ..serializers.payment_serializer import PaymentsSerializer
 from ..serializers.teacher_serializer import TeacherSerializer, TeacherPostSerializer, TeacherUserSerializer
 from ..models import User
 

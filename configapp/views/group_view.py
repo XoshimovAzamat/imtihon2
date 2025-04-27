@@ -62,3 +62,21 @@ class CourseApi(APIView):
         result_page = paginator.paginate_queryset(course_title, request)
         serializer = CourseSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
+
+    @swagger_auto_schema(request_body=CourseSerializer)
+    def put(self, request, pk):
+        course = get_object_or_404(Course, pk=pk)
+        serializer = CourseSerializer(course, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(request_body=CourseSerializer)
+    def patch(self, request, pk):
+        course = get_object_or_404(Course, pk=pk)
+        serializer = CourseSerializer(course, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

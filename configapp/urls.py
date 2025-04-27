@@ -3,6 +3,7 @@ from django.urls import path, include
 from .views import *
 from .views.attendance_view import AttendanceViewSet, StudentAttendanceViewSet
 from .views.group_view import GroupApi, GroupStudentDetailUpdateAPIView, CourseApi
+from .views.payments_view import PaymentsApi
 
 router = DefaultRouter()
 router.register('attendance', AttendanceViewSet, basename='attendance')
@@ -24,6 +25,8 @@ urlpatterns = [
     path('group/', GroupApi.as_view(), name='groups'),
     path('group/', GroupStudentDetailUpdateAPIView.as_view(), name='groups'),
     path('course/', CourseApi.as_view(), name='course'),
+    # Payments API
+    path('payments/', PaymentsApi.as_view(), name='payments'),
 
 
 ]
