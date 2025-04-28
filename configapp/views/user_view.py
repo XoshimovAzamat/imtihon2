@@ -8,7 +8,9 @@ from rest_framework.views import APIView
 from ..add_pagination import CustomPaginator
 from ..make_token import get_tokens_for_user
 from ..serializers import *
-import random
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import serializers
 
 
 class LoginApi(APIView):
@@ -22,6 +24,27 @@ class LoginApi(APIView):
         token = get_tokens_for_user(user)
         token['is_admin'] = user.is_admin
         return Response(data=token, status=status.HTTP_200_OK)
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+class LogoutApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=LogoutSerializer)
+    def post(self, request):
+        serializer = LogoutSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        refresh_token = serializer.validated_data.get('refresh')
+
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()  # refresh tokenni blacklist qilamiz
+            return Response({"detail": "Logout successful"}, status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class PhoneSendOTP(APIView):

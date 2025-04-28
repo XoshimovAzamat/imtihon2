@@ -44,7 +44,7 @@ WantedBy=multi-user.target
 
 server {
     listen 80;
-    server_name 209.38.249.199 ;
+    server_name 209.38.249.199 khoshimov.uz;
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {

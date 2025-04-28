@@ -1,6 +1,5 @@
 from django.contrib.admin.templatetags.admin_list import pagination
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.utils.representation import serializer_repr
 from rest_framework.views import APIView
 from configapp.add_pagination import CustomPaginator
 from configapp.models import GroupStudent, Course
@@ -10,7 +9,6 @@ from ..permissions import IsAdminOrTeacherLimitedEdit
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-
 from ..serializers import CourseSerializer
 
 
