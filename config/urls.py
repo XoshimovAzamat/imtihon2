@@ -27,7 +27,7 @@ schema_view = get_schema_view(
 )
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api', include('configapp.urls')),
+    path('', include('configapp.urls')),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('swagger.<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
