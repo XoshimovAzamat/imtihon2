@@ -8,7 +8,7 @@ from .views.attendance_view import AttendanceApi, AttendancePatchDeleteApi, Stud
 from .views.group_view import GroupApi, GroupStudentDetailUpdateAPIView, CourseApi, CoursePutPatchApi
 from .views.homework_view import HomeworkListCreateApi, HomeworkSubmissionCreateApi
 from .views.payments_view import PaymentsApi, PaymentsPutPatchApi
-from .views.table_view import TableApi
+from .views.table_view import TableApi, RoomApi
 
 router = DefaultRouter()
 # router.register('student-attendance', StudentAttendanceViewSet, basename='studentattendance')
@@ -39,6 +39,10 @@ urlpatterns = [
 
     # Table API
     path('table/', TableApi.as_view(), name='tables'),
+
+    #Room API
+
+    path('room/', RoomApi.as_view(), name='rooms'),
 
     # Attendance API
     path('attendance/', AttendanceApi.as_view(), name='attendance'),
