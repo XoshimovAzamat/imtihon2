@@ -1,6 +1,5 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
-
 from .models.homework_model import HomeworkSubmission
 from .views import *
 from .views.attendance_view import AttendanceApi, AttendancePatchDeleteApi, StudentAttendanceApi, \
@@ -8,7 +7,7 @@ from .views.attendance_view import AttendanceApi, AttendancePatchDeleteApi, Stud
 from .views.group_view import GroupApi, GroupStudentDetailUpdateAPIView, CourseApi, CoursePutPatchApi
 from .views.homework_view import HomeworkListCreateApi, HomeworkSubmissionCreateApi
 from .views.payments_view import PaymentsApi, PaymentsPutPatchApi
-from .views.table_view import TableApi, RoomApi
+from .views.table_view import TableApi, RoomApi, TableTypeApi
 
 router = DefaultRouter()
 # router.register('student-attendance', StudentAttendanceViewSet, basename='studentattendance')
@@ -39,9 +38,9 @@ urlpatterns = [
 
     # Table API
     path('table/', TableApi.as_view(), name='tables'),
+    path('table-type/', TableTypeApi.as_view(), name='table-types'),
 
     #Room API
-
     path('room/', RoomApi.as_view(), name='rooms'),
 
     # Attendance API

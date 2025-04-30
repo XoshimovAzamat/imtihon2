@@ -18,6 +18,11 @@ class TableSerializer(serializers.ModelSerializer):
         model = Table
         fields = "__all__"
 
+class TableTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TableType
+        fields = "__all__"
+
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
