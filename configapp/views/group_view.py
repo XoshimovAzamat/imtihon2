@@ -60,7 +60,7 @@ class CourseApi(APIView):
         result_page = paginator.paginate_queryset(course_title, request)
         serializer = CourseSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
-
+class CoursePutPatchApi(APIView):
     @swagger_auto_schema(request_body=CourseSerializer)
     def put(self, request, pk):
         course = get_object_or_404(Course, pk=pk)

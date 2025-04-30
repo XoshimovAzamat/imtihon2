@@ -47,19 +47,64 @@ class StudentApi(APIView):
         result_page = paginator.paginate_queryset(students, request)
         serializer = StudentSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
-    @swagger_auto_schema(request_body=StudentSerializer)
+
+class StudentPutPatchApi(APIView):
+    @swagger_auto_schema(request_body=StudentPostSerializer)
     def put(self, request, pk):
         student = get_object_or_404(Student, pk=pk)
-        serializer = StudentSerializer(student, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    @swagger_auto_schema(request_body=StudentSerializer)
+
+        # Foydalanuvchini yangilash
+        user_data = request.data.get('user', {})
+        user_serializer = StudentUserSerializer(student.user, data=user_data)
+        if user_serializer.is_valid():
+            # Parolni xash qilish
+            if 'password' in user_serializer.validated_data:
+                user_serializer.validated_data['password'] = make_password(user_serializer.validated_data['password'])
+            user_serializer.save()
+        else:
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Talabani yangilash
+        student_data = request.data.get('student', {})
+        student_serializer = StudentSerializer(student, data=student_data)
+        if student_serializer.is_valid():
+            student = student_serializer.save()
+
+            # ManyToMany maydonlarni yangilash
+            group_ids = student_data.get('group', [])
+            student.group.set(group_ids)
+
+            return Response(student_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(student_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(request_body=StudentPostSerializer)
     def patch(self, request, pk):
         student = get_object_or_404(Student, pk=pk)
-        serializer = StudentSerializer(student, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Foydalanuvchini qisman yangilash
+        user_data = request.data.get('user', {})
+        if user_data:
+            user_serializer = StudentUserSerializer(student.user, data=user_data, partial=True)
+            if user_serializer.is_valid():
+                if 'password' in user_serializer.validated_data:
+                    user_serializer.validated_data['password'] = make_password(
+                        user_serializer.validated_data['password'])
+                user_serializer.save()
+            else:
+                return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Talabani qisman yangilash
+        student_data = request.data.get('student', {})
+        student_serializer = StudentSerializer(student, data=student_data, partial=True)
+        if student_serializer.is_valid():
+            student = student_serializer.save()
+
+            # ManyToMany maydonlarini yangilash
+            group_ids = student_data.get('group', [])
+            if group_ids:
+                student.group.set(group_ids)
+
+            return Response(student_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(student_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

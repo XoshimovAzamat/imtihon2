@@ -17,16 +17,6 @@ from ..serializers.teacher_serializer import TeacherSerializer, TeacherPostSeria
 from ..models import User
 
 
-# class TeacherCreateApi(APIView):
-#     @swagger_auto_schema(request_body=TeacherSerializer)
-#     def post(self, request):
-#         serializer = TeacherSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response({"status": True, "detail": "Teacher created"})
-#         return Response({"status": False, "errors": serializer.errors}, status=400)
-#
-
 class TeacherApi(APIView):
     @swagger_auto_schema(request_body=TeacherPostSerializer)
     def post(self, request):
@@ -66,20 +56,68 @@ class TeacherApi(APIView):
         serializer = TeacherSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
-    @swagger_auto_schema(request_body=TeacherSerializer)
+
+class TeacherPutPatchApi(APIView):
+    @swagger_auto_schema(request_body=TeacherPostSerializer)
     def put(self, request, pk):
         teacher = get_object_or_404(Teacher, pk=pk)
-        serializer = TeacherSerializer(teacher, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @swagger_auto_schema(request_body=TeacherSerializer)
+        # 1. Userni to‘liq yangilaymiz
+        user_data = request.data.get("user")
+        if not user_data:
+            return Response({"user": "required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user_serializer = TeacherUserSerializer(teacher.user, data=user_data)
+        user_serializer.is_valid(raise_exception=True)
+
+        if 'password' in user_serializer.validated_data:
+            user_serializer.validated_data['password'] = make_password(user_serializer.validated_data['password'])
+
+        user_serializer.save()
+
+        # 2. Teacher obyektini to‘liq yangilaymiz
+        teacher_data = request.data.get("teacher")
+        if not teacher_data:
+            return Response({"teacher": "required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        teacher_serializer = TeacherSerializer(teacher, data=teacher_data)
+        teacher_serializer.is_valid(raise_exception=True)
+        teacher = teacher_serializer.save()
+
+        # ManyToMany
+        departments = teacher_data.get("departments")
+        if departments is not None:
+            teacher.departments.set(departments)
+
+        return Response(TeacherSerializer(teacher).data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(request_body=TeacherPostSerializer)
     def patch(self, request, pk):
         teacher = get_object_or_404(Teacher, pk=pk)
-        serializer = TeacherSerializer(teacher, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # 1. User qismi
+        user_data = request.data.get("user", {})
+        if user_data:
+            user_serializer = TeacherUserSerializer(teacher.user, data=user_data, partial=True)
+            if user_serializer.is_valid():
+                if 'password' in user_serializer.validated_data:
+                    user_serializer.validated_data['password'] = make_password(
+                        user_serializer.validated_data['password'])
+                user_serializer.save()
+            else:
+                return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # 2. Teacher qismi
+        teacher_data = request.data.get("teacher", {})
+        teacher_serializer = TeacherSerializer(teacher, data=teacher_data, partial=True)
+        if teacher_serializer.is_valid():
+            teacher = teacher_serializer.save()
+
+            # ManyToMany maydonlarni alohida set qilish (masalan: departments)
+            department_ids = teacher_data.get("departments", None)
+            if department_ids is not None:
+                teacher.departments.set(department_ids)
+
+            return Response(TeacherSerializer(teacher).data, status=status.HTTP_200_OK)
+        else:
+            return Response(teacher_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

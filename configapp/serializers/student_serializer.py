@@ -8,8 +8,6 @@ class StudentSerializer(serializers.ModelSerializer):
     group = serializers.PrimaryKeyRelatedField(
         queryset=GroupStudent.objects.all(), many=True, required=False
     )
-
-
     class Meta:
         model = Student
         fields = ['id', 'user', 'group']
