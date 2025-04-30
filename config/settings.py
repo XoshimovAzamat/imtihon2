@@ -62,8 +62,6 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,  # Bu juda muhim
 }
 
-# SECURE_SSL_REDIRECT = True
-SECURE_SSL_REDIRECT = False
 
 
 MIDDLEWARE = [
