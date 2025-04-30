@@ -75,8 +75,11 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://khoshimov.uz",
+    "https://khoshimov.uz",
 ]
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 AUTH_USER_MODEL = 'configapp.User'
 
