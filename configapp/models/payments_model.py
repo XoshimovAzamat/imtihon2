@@ -1,10 +1,12 @@
 from django.db import models
+
+from . import Student
 from .group_model import GroupStudent
 from .user_model import *
 
 
 class Payments(models.Model):
-    user = models.ForeignKey(User, on_delete=models.RESTRICT, related_name='payments')
+    student = models.ForeignKey(Student, on_delete=models.RESTRICT, related_name='payments')
     group = models.ForeignKey(GroupStudent, on_delete=models.RESTRICT, null=True, blank=True)
     amount = models.IntegerField()
     payment_date = models.DateTimeField(auto_now_add=True)

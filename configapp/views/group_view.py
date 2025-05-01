@@ -5,7 +5,7 @@ from configapp.add_pagination import CustomPaginator
 from configapp.models import GroupStudent, Course
 from configapp.serializers.group_serializer import GroupSerializer
 from rest_framework.permissions import IsAuthenticated
-from ..permissions import IsAdminOrTeacherLimitedEdit
+from ..permissions import IsAdminOrTeacherLimitedEdit, IsStaffOrReadOnly
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -13,6 +13,8 @@ from ..serializers import CourseSerializer
 
 
 class GroupApi(APIView):
+    permission_classes = [IsAuthenticated, IsStaffOrReadOnly]  # Har doim auth + staff check
+
     @swagger_auto_schema(request_body=GroupSerializer)
     def post(self, request):
         serializer = GroupSerializer(data=request.data)
@@ -31,13 +33,13 @@ class GroupApi(APIView):
 
 
 class GroupStudentDetailUpdateAPIView(APIView):
-    permission_classes = [IsAuthenticated, IsAdminOrTeacherLimitedEdit]
+    permission_classes = [IsAuthenticated, IsAdminOrTeacherLimitedEdit, IsStaffOrReadOnly]
 
     @swagger_auto_schema(request_body=GroupSerializer)
     def patch(self, request, pk):
         group_title = get_object_or_404(GroupStudent, pk=pk)
         self.check_object_permissions(request, group_title)
-        serializer = GroupSerializer(group, data=request.data, partial=True)
+        serializer = GroupSerializer(group_title, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -45,6 +47,8 @@ class GroupStudentDetailUpdateAPIView(APIView):
 
 
 class CourseApi(APIView):
+    permission_classes = [IsAuthenticated, IsStaffOrReadOnly]  # Har doim auth + staff check
+
     @swagger_auto_schema(request_body=CourseSerializer)
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
@@ -61,7 +65,10 @@ class CourseApi(APIView):
         serializer = CourseSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
+
 class CoursePutPatchApi(APIView):
+    permission_classes = [IsAuthenticated, IsStaffOrReadOnly]  # Har doim auth + staff check
+
     @swagger_auto_schema(request_body=CourseSerializer)
     def put(self, request, pk):
         course = get_object_or_404(Course, pk=pk)
@@ -74,7 +81,7 @@ class CoursePutPatchApi(APIView):
     @swagger_auto_schema(request_body=CourseSerializer)
     def patch(self, request, pk):
         course = get_object_or_404(Course, pk=pk)
-        serializer = CourseSerializer(course, data=request.data)
+        serializer = CourseSerializer(course, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

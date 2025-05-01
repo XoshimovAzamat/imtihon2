@@ -22,6 +22,8 @@ class PaymentsApi(APIView):
             serializer.save()
             return Response(data=serializer.data)
         return Response(data=serializer.errors)
+
+
 class PaymentsPutPatchApi(APIView):
     @swagger_auto_schema(request_body=PaymentsSerializer)
     def put(self, request, pk):

@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
+
 class IsAdminOrTeacherLimitedEdit(BasePermission):
     """
     Admin: to‘liq CRUD
@@ -24,3 +25,17 @@ class IsAdminOrTeacherLimitedEdit(BasePermission):
             return incoming_fields.issubset(allowed_fields)
 
         return False
+
+
+class IsStaffOrReadOnly(BasePermission):
+    """
+    Faqat is_staff foydalanuvchilar uchun CRUD ruxsat.
+    Boshqa foydalanuvchilar faqat o'qiy olishadi.
+    """
+
+    def has_permission(self, request, view):
+        # GET, HEAD, OPTIONS ruxsat etilgan (read only)
+        if request.method in SAFE_METHODS:
+            return True
+        # create, update, delete uchun faqat is_staff foydalanuvchilarga ruxsat
+        return request.user and request.user.is_authenticated and request.user.is_staff

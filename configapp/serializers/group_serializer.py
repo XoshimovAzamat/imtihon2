@@ -27,3 +27,8 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = "__all__"
+
+class DepartamentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Departments
+        fields = '__all__'

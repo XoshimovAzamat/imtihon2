@@ -22,7 +22,7 @@ class Departments(BaseModel):
         return self.title
 
 
-# Xodimlarning  saqlash uchun yuqoridagi Course va Departments modellari Teacher bog'langan
+# Xodimlarni saqlash uchun yuqoridagi Course va Departments modellari Teacher bog'langan
 
 class Teacher(BaseModel):
     user = models.OneToOneField(User, on_delete=models.RESTRICT, related_name="user")
