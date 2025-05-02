@@ -1,7 +1,6 @@
 from datetime import timedelta
 from pathlib import Path
 
-
 from django.conf.global_settings import STATICFILES_DIRS, STATIC_ROOT
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -16,13 +15,7 @@ SECRET_KEY = 'django-insecure-!^a^sdx@n6p(&ga)09=qy9fxc@8e$n+0y+x5bciz_@u*+86z+l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'khoshimov.uz',
-    'www.khoshimov.uz',
-    '209.38.249.199',
-    'localhost',
-    '127.0.0.1',
-]
+ALLOWED_HOSTS = ['*', '209.38.249.199', 'khoshimov.uz', 'https://khoshimov.uz', 'http://khoshimov.uz']
 
 # Application definition
 
@@ -39,7 +32,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework.authtoken',
-
 
 ]
 REST_FRAMEWORK = {
@@ -63,8 +55,6 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,  # Bu juda muhim
 }
 
-
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -75,7 +65,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
-
 
 AUTH_USER_MODEL = 'configapp.User'
 
