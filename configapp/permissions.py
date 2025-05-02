@@ -39,3 +39,7 @@ class IsStaffOrReadOnly(BasePermission):
             return True
         # create, update, delete uchun faqat is_staff foydalanuvchilarga ruxsat
         return request.user and request.user.is_authenticated and request.user.is_staff
+
+class IsTeacher(BasePermission):
+    def has_permission(self, request, view):
+        return hasattr(request.user, 'user')  # ya'ni Teacher borligini tekshiradi

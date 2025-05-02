@@ -6,14 +6,16 @@ from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from configapp.models import Teacher
+from configapp.models import Teacher, GroupStudent
 from configapp.serializers import TeacherSerializer
 from ..add_pagination import CustomPaginator
 from django.shortcuts import get_object_or_404
 from ..models.payments_model import Payments
+from ..permissions import IsTeacher
 from ..serializers.payment_serializer import PaymentsSerializer
 from ..serializers.teacher_serializer import TeacherSerializer, TeacherPostSerializer, TeacherUserSerializer
 from ..models import User
+from ..serializers.detail_for_teacher import GroupStudentDetailSerializer
 
 
 class TeacherApi(APIView):
@@ -120,3 +122,13 @@ class TeacherPutPatchApi(APIView):
             return Response(TeacherSerializer(teacher).data, status=status.HTTP_200_OK)
         else:
             return Response(teacher_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TeacherGroupInfoAPIView(APIView):
+    permission_classes = [IsTeacher]
+
+    def get(self, request):
+        teacher = Teacher.objects.get(user=request.user)
+        groups = GroupStudent.objects.filter(teacher=teacher).distinct()
+        serializer = GroupStudentDetailSerializer(groups, many=True)
+        return Response(serializer.data)

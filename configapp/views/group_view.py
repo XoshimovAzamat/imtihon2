@@ -47,7 +47,7 @@ class GroupStudentDetailUpdateAPIView(APIView):
 
 
 class CourseApi(APIView):
-    permission_classes = [IsAuthenticated, IsStaffOrReadOnly]  # Har doim auth + staff check
+    permission_classes = [IsAuthenticated, IsStaffOrReadOnly ]  # Har doim auth + staff check
 
     @swagger_auto_schema(request_body=CourseSerializer)
     def post(self, request):
@@ -60,14 +60,13 @@ class CourseApi(APIView):
     def get(self, request):
         course_title = Course.objects.all().order_by('-id')
         paginator = CustomPaginator()
-        paginator.page_size = 2
         result_page = paginator.paginate_queryset(course_title, request)
         serializer = CourseSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
 
 class CoursePutPatchApi(APIView):
-    permission_classes = [IsAuthenticated, IsStaffOrReadOnly]  # Har doim auth + staff check
+    permission_classes = [IsAuthenticated]  # Har doim auth + staff check
 
     @swagger_auto_schema(request_body=CourseSerializer)
     def put(self, request, pk):

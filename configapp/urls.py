@@ -7,7 +7,7 @@ from .views.attendance_view import AttendanceApi, AttendancePatchDeleteApi, Stud
 from .views.group_view import GroupApi, GroupStudentDetailUpdateAPIView, CourseApi, CoursePutPatchApi
 from .views.homework_view import HomeworkListCreateApi, HomeworkSubmissionCreateApi
 from .views.payments_view import PaymentsApi, PaymentsPutPatchApi
-from .views.staff_view import StatisticsAPIView
+from .views.staff_view import StatisticsAPIView, DepartamentApi
 from .views.table_view import TableApi, RoomApi, TableTypeApi
 
 router = DefaultRouter()
@@ -23,6 +23,8 @@ urlpatterns = [
     path('teacher/', TeacherApi.as_view(), name='teacher'),
     path('teacher/<int:pk>/', TeacherPutPatchApi.as_view(), name='teacher'),
     path('users/', RegisterUserApi.as_view(), name='users'),
+    path('teacher/info-group/', TeacherGroupInfoAPIView.as_view(), name='teacher'),
+    path('departament/', DepartamentApi.as_view(), name='departament'),
     path('', include(router.urls)),
 
     # Auth API
