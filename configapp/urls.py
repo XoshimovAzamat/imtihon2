@@ -7,6 +7,7 @@ from .views.attendance_view import AttendanceApi, AttendancePatchDeleteApi, Stud
 from .views.group_view import GroupApi, GroupStudentDetailUpdateAPIView, CourseApi, CoursePutPatchApi
 from .views.homework_view import HomeworkListCreateApi, HomeworkSubmissionCreateApi
 from .views.payments_view import PaymentsApi, PaymentsPutPatchApi
+from .views.salom_view import SalomApi
 from .views.staff_view import StatisticsAPIView, DepartamentApi
 from .views.table_view import TableApi, RoomApi, TableTypeApi
 
@@ -14,6 +15,8 @@ router = DefaultRouter()
 # router.register('student-attendance', StudentAttendanceViewSet, basename='studentattendance')
 
 urlpatterns = [
+    #Salom API
+    path('abcd/salom/', SalomApi.as_view()),
     # Student API
     path('student/', StudentApi.as_view(), name='students'),
     path('student/<int:pk>/', StudentPutPatchApi.as_view(), name='students'),
