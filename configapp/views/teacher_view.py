@@ -15,7 +15,6 @@ from ..permissions import IsTeacher
 from ..serializers.payment_serializer import PaymentsSerializer
 from ..serializers.teacher_serializer import TeacherSerializer, TeacherPostSerializer, TeacherUserSerializer
 from ..models import User
-from ..serializers.detail_for_teacher import GroupStudentDetailSerializer
 
 
 class TeacherApi(APIView):

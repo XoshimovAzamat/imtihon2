@@ -2,8 +2,6 @@ from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from .models.homework_model import HomeworkSubmission
 from .views import *
-from .views.attendance_view import AttendanceApi, AttendancePatchDeleteApi, StudentAttendanceApi, \
-    StudentAttendancePutPatchDeleteApi
 from .views.group_view import GroupApi, GroupStudentDetailUpdateAPIView, CourseApi, CoursePutPatchApi
 from .views.homework_view import HomeworkListCreateApi, HomeworkSubmissionCreateApi
 from .views.payments_view import PaymentsApi, PaymentsPutPatchApi
@@ -50,11 +48,11 @@ urlpatterns = [
     #Room API
     path('room/', RoomApi.as_view(), name='rooms'),
 
-    # Attendance API
-    path('attendance/', AttendanceApi.as_view(), name='attendance'),
-    path('attendance/<int:pk>/', AttendancePatchDeleteApi.as_view(), name='attendance'),
-    path('student-attendance/', StudentAttendanceApi.as_view()),
-    path('student-attendance/<int:pk>/', StudentAttendancePutPatchDeleteApi.as_view()),
+    # # Attendance API
+    # path('attendance/', AttendanceApi.as_view(), name='attendance'),
+    # path('attendance/<int:pk>/', AttendancePatchDeleteApi.as_view(), name='attendance'),
+    # path('student-attendance/', StudentAttendanceApi.as_view()),
+    # path('student-attendance/<int:pk>/', StudentAttendancePutPatchDeleteApi.as_view()),
 
     # Payments API
     path('payments/', PaymentsApi.as_view(), name='payments'),

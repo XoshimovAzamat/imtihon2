@@ -6,4 +6,4 @@ from ..models.salom import SalomBer
 class SalomSerializer(serializers.ModelSerializer):
     class Meta:
         model = SalomBer
-        fields = ['__all__']
+        fields = '__all__'

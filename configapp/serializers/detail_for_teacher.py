@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from configapp.models import GroupStudent, Student
-from configapp.models.attendance_model import Attendance
 
 
 # Talaba uchun oddiy serializer
@@ -11,10 +10,6 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 # Davomat serializer
-class AttendanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Attendance
-        fields = ['id', 'date', 'lesson_name', 'descriptions']
 
 
 # Guruh serializer: ichida studentlar va davomatlar
