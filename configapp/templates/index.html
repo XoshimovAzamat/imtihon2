@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Azamatbek</title>
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          height: 100vh;
+          background: url("{% static 'images/pexels-markusspiske-1089438.jpg' %}") no-repeat center center fixed;
+          background-size: cover;
+          font-family: sans-serif;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .dark-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: black;
+          pointer-events: none;
+          z-index: 2;
+          --x: 50%;
+          --y: 50%;
+          --size: 250px;
+          mask-image: radial-gradient(circle var(--size) at var(--x) var(--y), transparent 0%, black 100%);
+          -webkit-mask-image: radial-gradient(circle var(--size) at var(--x) var(--y), transparent 0%, black 100%);
+        }
+
+        .content {
+          position: relative;
+          z-index: 1;
+          text-align: center;
+          color: white;
+          top: 40%;
+          padding: 0 20px;
+        }
+
+        .content h1 {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+          text-shadow: 0 0 10px rgba(0,0,0,0.7);
+        }
+
+        .content p {
+          font-size: 1.2rem;
+          text-shadow: 0 0 10px rgba(0,0,0,0.7);
+        }
+
+        .btn {
+          display: inline-block;
+          margin: 15px 10px 0 10px;
+          padding: 10px 25px;
+          font-size: 1rem;
+          color: white;
+          background: rgba(255, 255, 255, 0.2);
+          border: 2px solid white;
+          border-radius: 25px;
+          text-decoration: none;
+          cursor: pointer;
+          transition: background-color 0.3s ease, color 0.3s ease;
+          user-select: none;
+        }
+        .btn:hover {
+          background: white;
+          color: black;
+          text-decoration: none;
+        }
+        .btn:active {
+          background: #ccc;
+          color: black;
+        }
+
+        @media (max-width: 600px) {
+          .content h1 {
+            font-size: 2rem;
+          }
+          .content p {
+            font-size: 1rem;
+          }
+          .btn {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+          }
+        }
+    </style>
+
+</head>
+<body>
+<div class="dark-overlay"></div>
+
+<div class="content">
+    <h1>Hi, I'm Azamat </h1>
+    <p>Welcome to my personal portfolio website. Here you can explore my projects, skills, and experiences.</p>
+
+    <!-- Link ko'rinishidagi buttonlar -->
+    <a href="{% url 'about_me' %}" class="btn">About Me</a>
+    <a href="{% url 'contacts' %}" class="btn">Contacts</a>
+    <a href="/swagger/" class="btn">Swagger</a> <!-- 🆕 Qo‘shilgan button -->
+</div>
+
+<script>
+    const overlay = document.querySelector('.dark-overlay');
+
+    function updateMask(x, y) {
+      overlay.style.setProperty('--x', `${x}px`);
+      overlay.style.setProperty('--y', `${y}px`);
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      updateMask(e.clientX, e.clientY);
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      updateMask(touch.clientX, touch.clientY);
+    }, { passive: true });
+</script>
+</body>
+</html>

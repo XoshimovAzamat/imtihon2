@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Contacts - Azamat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #1f1c2c, #928dab);
+          color: #fff;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          text-align: center;
+        }
+
+        h1 {
+          font-size: 3rem;
+          margin-bottom: 20px;
+        }
+
+        p {
+          font-size: 1.2rem;
+          margin-bottom: 30px;
+        }
+
+        .social-links {
+          display: flex;
+          gap: 30px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .social-links a {
+          text-decoration: none;
+          color: #fff;
+          font-size: 1.5rem;
+          border: 2px solid #fff;
+          padding: 15px 25px;
+          border-radius: 50px;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .social-links a:hover {
+          background-color: #fff;
+          color: #333;
+        }
+
+        .back {
+          margin-top: 40px;
+          color: #fff;
+          text-decoration: underline;
+          font-size: 1rem;
+        }
+
+        @media (max-width: 500px) {
+          h1 {
+            font-size: 2rem;
+          }
+          .social-links a {
+            padding: 10px 20px;
+            font-size: 1.1rem;
+          }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Contact Me</h1>
+<p>Get in touch via the platforms below</p>
+
+<div class="social-links">
+    <a href="https://t.me/azamatxoshimov" target="_blank">
+        <i class="fab fa-telegram"></i> Telegram
+    </a>
+    <a href="https://instagram.com/azamatbek_xoshimov" target="_blank">
+        <i class="fab fa-instagram"></i> Instagram
+    </a>
+    <a href="tel:+998900199921">
+        <i class="fas fa-phone"></i> +998 90 019 99 21
+    </a>
+</div>
+
+<a href="/" class="back">⬅ Back to Home</a>
+
+</body>
+</html>

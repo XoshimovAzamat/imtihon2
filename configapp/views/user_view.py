@@ -11,6 +11,16 @@ from ..serializers import *
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
+from django.shortcuts import render
+
+def index(request):
+    return render(request, 'index.html')
+
+def about_me(request):
+    return render(request, 'about.html')
+
+def contacts(request):
+    return render(request, 'contacts.html')
 
 
 class LoginApi(APIView):

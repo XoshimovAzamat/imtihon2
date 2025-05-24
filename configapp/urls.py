@@ -2,6 +2,7 @@ from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from .models.homework_model import HomeworkSubmission
 from .views import *
+from .views import about_me
 from .views.group_view import GroupApi, GroupStudentDetailUpdateAPIView, CourseApi, CoursePutPatchApi
 from .views.homework_view import HomeworkListCreateApi, HomeworkSubmissionCreateApi
 from .views.payments_view import PaymentsApi, PaymentsPutPatchApi
@@ -13,8 +14,9 @@ router = DefaultRouter()
 # router.register('student-attendance', StudentAttendanceViewSet, basename='studentattendance')
 
 urlpatterns = [
-    #Salom API
-    path('abcd/salom/', SalomApi.as_view()),
+    path('about/', about_me, name='about_me'),
+    path('contacts/', contacts, name='contacts'),
+
     # Student API
     path('student/', StudentApi.as_view(), name='students'),
     path('student/<int:pk>/', StudentPutPatchApi.as_view(), name='students'),
@@ -45,7 +47,7 @@ urlpatterns = [
     path('table/', TableApi.as_view(), name='tables'),
     path('table-type/', TableTypeApi.as_view(), name='table-types'),
 
-    #Room API
+    # Room API
     path('room/', RoomApi.as_view(), name='rooms'),
 
     # # Attendance API

@@ -8,6 +8,7 @@ from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
 
+from configapp.views import index
 
 router = DefaultRouter()
 
@@ -27,7 +28,8 @@ schema_view = get_schema_view(
 )
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('configapp.urls')),
+    path('', index),
+    path('api/', include('configapp.urls')),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('swagger.<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
