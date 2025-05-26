@@ -112,56 +112,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.querySelector('.dark-overlay');
 
-    // Kursor maskasini yangilash funksiyasi
     function updateMask(x, y) {
         overlay.style.setProperty('--x', `${x}px`);
         overlay.style.setProperty('--y', `${y}px`);
     }
 
-    // Ekran o‘lchamlari
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    // Real va jonli kursor harakatini kuzatish
+    document.addEventListener('mousemove', (e) => {
+        updateMask(e.clientX, e.clientY);
+    });
 
-    // To‘lqin parametrlari
-    const amplitude = 200;        // To‘lqinning balandligi
-    const frequency = 2;          // Nechta to‘lqin bo‘ladi
-    const centerY = height / 2;   // To‘lqin markazi (y o‘qi bo‘yicha)
-
-    const totalDuration = 1800;   // 3.5 soniya davom etadi
-    const frameRate = 60;         // 60fps
-    const steps = totalDuration / (1000 / frameRate);  // Umumiy frame soni
-
-    let frame = 0;
-
-    // Demo animatsiyani boshlash
-    let demoInterval = setInterval(() => {
-        const progress = frame / steps;           // 0 dan 1 gacha o‘sadi
-        const x = progress * width;               // Chapdan o‘ngga harakat
-        const y = centerY + amplitude * Math.sin(progress * frequency * 2 * Math.PI);
-        // y = sinusoidal harakat
-
-        updateMask(x, y);
-        frame++;
-
-        if (frame >= steps) {
-            clearInterval(demoInterval);
-            enableCursorTracking(); // Real kursorga o‘tamiz
-        }
-    }, 1000 / frameRate);
-
-    // Kursorni real boshqarish rejimiga o‘tkazish
-    function enableCursorTracking() {
-        document.addEventListener('mousemove', (e) => {
-            updateMask(e.clientX, e.clientY);
-        });
-
-        document.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            updateMask(touch.clientX, touch.clientY);
-        }, { passive: true });
-    }
+    document.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        updateMask(touch.clientX, touch.clientY);
+    }, { passive: true });
 });
 </script>
+
 
 
 
