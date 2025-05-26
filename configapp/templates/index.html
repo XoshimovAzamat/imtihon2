@@ -30,12 +30,13 @@
           background: black;
           pointer-events: none;
           z-index: 2;
-          --x: 50%;
-          --y: 50%;
-          --size: 300px;
+          --x: -1000px; /* Boshlang‘ich holat: ekranda yo‘q joy */
+          --y: -1000px;
+          --size: 250px;
           mask-image: radial-gradient(circle var(--size) at var(--x) var(--y), transparent 0%, black 100%);
           -webkit-mask-image: radial-gradient(circle var(--size) at var(--x) var(--y), transparent 0%, black 100%);
         }
+
 
         .content {
           position: relative;
@@ -109,27 +110,29 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const overlay = document.querySelector('.dark-overlay');
+    document.addEventListener('DOMContentLoaded', () => {
+        const overlay = document.querySelector('.dark-overlay');
 
-    function updateMask(x, y) {
-        overlay.style.setProperty('--x', `${x}px`);
-        overlay.style.setProperty('--y', `${y}px`);
-    }
+        // Dastlabki holat: butunlay qora (nur yo'q)
+        overlay.style.setProperty('--x', `-1000px`);
+        overlay.style.setProperty('--y', `-1000px`);
 
-    // Real va jonli kursor harakatini kuzatish
-    document.addEventListener('mousemove', (e) => {
-        updateMask(e.clientX, e.clientY);
+        // Faqat harakat bo'lganda nur paydo bo'ladi
+        function updateMask(x, y) {
+            overlay.style.setProperty('--x', `${x}px`);
+            overlay.style.setProperty('--y', `${y}px`);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            updateMask(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            updateMask(touch.clientX, touch.clientY);
+        }, { passive: true });
     });
-
-    document.addEventListener('touchmove', (e) => {
-        const touch = e.touches[0];
-        updateMask(touch.clientX, touch.clientY);
-    }, { passive: true });
-});
 </script>
-
-
 
 
 </body>
