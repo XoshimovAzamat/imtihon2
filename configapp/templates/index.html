@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
+    <link rel="preload" as="image" href="{% static 'images/pexels-markusspiske-1089438.webp' %}">
+
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Azamatbek</title>
@@ -110,52 +112,51 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const overlay = document.querySelector('.dark-overlay');
+    document.addEventListener('DOMContentLoaded', () => {
+        const overlay = document.querySelector('.dark-overlay');
 
-    function updateMask(x, y) {
-        overlay.style.setProperty('--x', `${x}px`);
-        overlay.style.setProperty('--y', `${y}px`);
-    }
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const radiusX = 500;  // KATTAROQ chizsin
-    const radiusY = 120;
-    const totalDuration = 2200; // 5 sekund
-    const numberOfLoops = 1; // ∞ belgisi 4 marta chiziladi
-    const frameRate = 60; // 60fps
-    const steps = totalDuration / (1000 / frameRate); // umumiy frame soni
-    let frame = 0;
-
-    let demoInterval = setInterval(() => {
-        const t = (frame / steps) * 2 * Math.PI * numberOfLoops;
-        const x = centerX + radiusX * Math.sin(t);
-        const y = centerY + radiusY * Math.sin(2 * t);
-        updateMask(x, y);
-        frame++;
-
-        if (frame >= steps) {
-            clearInterval(demoInterval);
-            enableCursorTracking();
+        function updateMask(x, y) {
+            overlay.style.setProperty('--x', `${x}px`);
+            overlay.style.setProperty('--y', `${y}px`);
         }
-    }, 1000 / frameRate);
 
-    function enableCursorTracking() {
-        document.addEventListener('mousemove', (e) => {
-            updateMask(e.clientX, e.clientY);
-        });
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const radiusX = 500;  // KATTAROQ chizsin
+        const radiusY = 120;
+        const totalDuration = 2200; // 5 sekund
+        const numberOfLoops = 1; // ∞ belgisi 4 marta chiziladi
+        const frameRate = 60; // 60fps
+        const steps = totalDuration / (1000 / frameRate); // umumiy frame soni
+        let frame = 0;
 
-        document.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            updateMask(touch.clientX, touch.clientY);
-        }, { passive: true });
-    }
-});
+        let demoInterval = setInterval(() => {
+            const t = (frame / steps) * 2 * Math.PI * numberOfLoops;
+            const x = centerX + radiusX * Math.sin(t);
+            const y = centerY + radiusY * Math.sin(2 * t);
+            updateMask(x, y);
+            frame++;
+
+            if (frame >= steps) {
+                clearInterval(demoInterval);
+                enableCursorTracking();
+            }
+        }, 1000 / frameRate);
+
+        function enableCursorTracking() {
+            document.addEventListener('mousemove', (e) => {
+                updateMask(e.clientX, e.clientY);
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                const touch = e.touches[0];
+                updateMask(touch.clientX, touch.clientY);
+            }, { passive: true });
+        }
+    });
 </script>
-
 
 
 </body>
