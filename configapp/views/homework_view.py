@@ -45,7 +45,7 @@ class HomeworkSubmissionCreateApi(APIView): # Studentlar homework yuklashi uchun
         except Homework.DoesNotExist:
             return Response({'detail': 'Homework not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = HomeworkSubmissionSerializer(data=request.data)
+        serializer = HomeworkSubmissionSerializer(data=request.data,  context={'request': request})
         if serializer.is_valid():
             serializer.save(student=request.user, homework=homework)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

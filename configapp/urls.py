@@ -6,7 +6,6 @@ from .views import about_me
 from .views.group_view import GroupApi, GroupStudentDetailUpdateAPIView, CourseApi, CoursePutPatchApi
 from .views.homework_view import HomeworkListCreateApi, HomeworkSubmissionCreateApi
 from .views.payments_view import PaymentsApi, PaymentsPutPatchApi
-from .views.salom_view import SalomApi
 from .views.staff_view import StatisticsAPIView, DepartamentApi
 from .views.table_view import TableApi, RoomApi, TableTypeApi
 
@@ -50,11 +49,6 @@ urlpatterns = [
     # Room API
     path('room/', RoomApi.as_view(), name='rooms'),
 
-    # # Attendance API
-    # path('attendance/', AttendanceApi.as_view(), name='attendance'),
-    # path('attendance/<int:pk>/', AttendancePatchDeleteApi.as_view(), name='attendance'),
-    # path('student-attendance/', StudentAttendanceApi.as_view()),
-    # path('student-attendance/<int:pk>/', StudentAttendancePutPatchDeleteApi.as_view()),
 
     # Payments API
     path('payments/', PaymentsApi.as_view(), name='payments'),
